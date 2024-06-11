@@ -47,6 +47,14 @@ class PromotionItem implements MenuItem {
     public double getDiscountedPrice(double originalPrice) {
         return originalPrice - (originalPrice * discountRate);
     }
+
+    public void setPromotionDetails(String promotionDetails) {
+        this.promotionDetails = promotionDetails;
+    }
+
+    public void setDiscountRate(double discountRate) {
+        this.discountRate = discountRate;
+    }
 }
 
 class Menu {
@@ -57,7 +65,30 @@ class Menu {
     }
 
     public void addItem(MenuItem item) {
-        items.add(item);
+        boolean itemExist = false;
+        for (MenuItem existingItem : items) {
+            if (existingItem.getName().equals(item.getName())) {
+                itemExist = true;
+                break;
+            }
+        }
+        if (!itemExist) {
+            items.add(item);
+        } else {
+            System.out.println("Item with name " + item.getName() + " already exists and will not be added.");
+        }
+    }
+
+    public void updateItem(String name, String promotionDetails, double discountRate) {
+        for (int i = 0; i < items.size(); i++) {
+            MenuItem existingItem = items.get(i);
+            if (existingItem.getName().equals(name)) {
+                PromotionItem promoItem = new PromotionItem(existingItem, promotionDetails, discountRate);
+                items.set(i, promoItem);
+                return;
+            }
+        }
+        System.out.println("Item with name " + name + " not found.");
     }
 
     public void removeItem(MenuItem item) {
@@ -203,9 +234,13 @@ public class MenuManagementSystem {
     public static void main(String[] args) {
         // Load the menu from a file
         loadMenuFromFile();
+        System.out.println("------------------------------------------------------");
+        System.out.println("| Welcome to Universal Sambal Menu Management System |");
+        System.out.println("------------------------------------------------------");
 
         // Main menu loop
         while (true) {
+            System.out.println("Main Page");
             System.out.println("1. View Menu");
             System.out.println("2. Add Item");
             System.out.println("3. Remove Item");
@@ -214,26 +249,37 @@ public class MenuManagementSystem {
             System.out.print("Select an option: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
+            System.out.println();
 
             switch (option) {
                 case 1:
+                    System.out.println("Menu:");
                     viewMenu();
+                    System.out.println();
                     break;
                 case 2:
+                    System.out.println("Add new Item");
                     addItem();
+                    System.out.println();
                     break;
                 case 3:
+                    System.out.println("Remove Item");
                     removeItem();
+                    System.out.println();
                     break;
                 case 4:
+                    System.out.println("Add Promotion");
                     addPromotion();
+                    System.out.println();
                     break;
                 case 5:
                     saveMenuToFile();
+                    System.out.println();
                     System.out.println("Exiting...");
                     return;
                 default:
                     System.out.println("Invalid option. Please try again.");
+                    System.out.println();
             }
         }
     }
@@ -413,8 +459,7 @@ public class MenuManagementSystem {
             double discountRate = scanner.nextDouble();
             scanner.nextLine(); // Consume newline
 
-            PromotionItem promoItem = new PromotionItem(item, promotionDetails, discountRate);
-            menu.addItem(promoItem);
+            menu.updateItem(name, promotionDetails, discountRate);
             saveMenuToFile();
             System.out.println("Promotion added successfully.");
         } else {
