@@ -1,1 +1,4 @@
+Dishes,Nasi Goreng,12.99,M,3
 Drink,Teh Tarik,3.99,250.00,10.00
+Drink,Lemonade,3.50,100.00,2.00
+Dishes,Bakso,5.00,S,0

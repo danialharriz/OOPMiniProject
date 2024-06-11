@@ -113,9 +113,9 @@ class Dishes implements MenuItem {
     private double price;
     private char size;
     private String dishType;
-    private boolean spicy;
+    private int spicy;
 
-    public Dishes(double price, String dishType, char size, boolean spicy) {
+    public Dishes(double price, String dishType, char size, int spicy) {
         this.price = price;
         this.dishType = dishType;
         this.size = size;
@@ -134,7 +134,7 @@ class Dishes implements MenuItem {
 
     @Override
     public String getDescription() {
-        return "Dish Type: " + dishType + ", Size: " + size + ", Spicy: " + spicy;
+        return "Size: " + size + ", Spicy: " + spicy;
     }
 
     public String getDishType() {
@@ -145,7 +145,7 @@ class Dishes implements MenuItem {
         return size;
     }
 
-    public boolean isSpicy() {
+    public int isSpicy() {
         return spicy;
     }
 }
@@ -175,7 +175,7 @@ class Drink implements MenuItem {
 
     @Override
     public String getDescription() {
-        return "Drink Type: " + drinkType + ", Volume: " + volume + "ml, Sugar: " + sugar + "g";
+        return "Volume: " + volume + "ml, Sugar: " + sugar + "g";
     }
 
     public String getDrinkType() {
@@ -214,7 +214,7 @@ class Dessert implements MenuItem {
 
     @Override
     public String getDescription() {
-        return "Dessert Type: " + dessertType + ", Size: " + size + "g";
+        return "Size: " + size + "g";
     }
 
     public String getDessertType() {
@@ -245,7 +245,8 @@ public class MenuManagementSystem {
             System.out.println("2. Add Item");
             System.out.println("3. Remove Item");
             System.out.println("4. Add Promotion");
-            System.out.println("5. Exit");
+            System.out.println("5. Remove Promotion");
+            System.out.println("6. Exit");
             System.out.print("Select an option: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -273,6 +274,11 @@ public class MenuManagementSystem {
                     System.out.println();
                     break;
                 case 5:
+                    System.out.println("Remove Promotion");
+                    System.out.println("Haven't done");
+                    System.out.println();
+                    break;
+                case 6:
                     saveMenuToFile();
                     System.out.println();
                     System.out.println("Exiting...");
@@ -293,7 +299,7 @@ public class MenuManagementSystem {
                     case "Dishes":
                         double dishPrice = Double.parseDouble(parts[2]);
                         char size = parts[3].charAt(0);
-                        boolean spicy = Boolean.parseBoolean(parts[4]);
+                        int spicy = Integer.parseInt(parts[4]);
                         menu.addItem(new Dishes(dishPrice, parts[1], size, spicy));
                         break;
                     case "Drink":
@@ -391,8 +397,8 @@ public class MenuManagementSystem {
         double price = scanner.nextDouble();
         System.out.print("Enter size (S, M, L): ");
         char size = scanner.next().charAt(0);
-        System.out.print("Is it spicy? (true/false): ");
-        boolean spicy = scanner.nextBoolean();
+        System.out.print("Is it spicy? (0(No spicy) - 3(Super spicy)): ");
+        int spicy = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
         Dishes dish = new Dishes(price, name, size, spicy);
