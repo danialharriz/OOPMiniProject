@@ -1,4 +1,4 @@
-package Jiale;
+package Harriz;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -65,18 +65,7 @@ class Menu {
     }
 
     public void addItem(MenuItem item) {
-        boolean itemExist = false;
-        for (MenuItem existingItem : items) {
-            if (existingItem.getName().equals(item.getName())) {
-                itemExist = true;
-                break;
-            }
-        }
-        if (!itemExist) {
-            items.add(item);
-        } else {
-            System.out.println("Item with name " + item.getName() + " already exists and will not be added.");
-        }
+        items.add(item);
     }
 
     public void updateItem(String name, String promotionDetails, double discountRate) {
@@ -227,20 +216,18 @@ class Dessert implements MenuItem {
 }
 
 public class MenuManagementSystem {
-    private static final String MENU_FILE = "Menu.txt";
+    private static final String MENU_FILE = "Harriz/Menu.txt";
     private static Scanner scanner = new Scanner(System.in);
     private static Menu menu = new Menu();
 
     public static void main(String[] args) {
-        // Load the menu from a file
         loadMenuFromFile();
         System.out.println("------------------------------------------------------");
         System.out.println("| Welcome to Universal Sambal Menu Management System |");
         System.out.println("------------------------------------------------------");
 
-        // Main menu loop
         while (true) {
-            System.out.println("Main Page");
+            System.out.println("Main Menu:");
             System.out.println("1. View Menu");
             System.out.println("2. Add Item");
             System.out.println("3. Remove Item");
@@ -280,7 +267,6 @@ public class MenuManagementSystem {
                     break;
                 case 6:
                     saveMenuToFile();
-                    System.out.println();
                     System.out.println("Exiting...");
                     return;
                 default:
@@ -313,6 +299,17 @@ public class MenuManagementSystem {
                         double dessertSize = Double.parseDouble(parts[3]);
                         menu.addItem(new Dessert(dessertPrice, parts[1], dessertSize));
                         break;
+                    case "Promotion":
+                        double promoPrice = Double.parseDouble(parts[2]);
+                        String promoName = parts[1];
+                        double discountRate = Double.parseDouble(parts[3]);
+                        String promoDetails = parts[4];
+                        MenuItem promoItem = menu.findItem(promoName);
+                        if (promoItem != null) {
+                            PromotionItem promotionItem = new PromotionItem(promoItem, promoDetails, discountRate);
+                            menu.addItem(promotionItem);
+                        }
+                        break;
                 }
             }
         } catch (IOException e) {
@@ -325,13 +322,16 @@ public class MenuManagementSystem {
             for (MenuItem item : menu.getItems()) {
                 if (item instanceof Dishes) {
                     Dishes dish = (Dishes) item;
-                    writer.write(String.format("Dishes,%s,%.2f,%c,%b\n", dish.getName(), dish.getPrice(), dish.getSize(), dish.isSpicy()));
+                    writer.write(String.format("Dishes,%s,%.2f,%c,%d\n", dish.getName(), dish.getPrice(), dish.getSize(), dish.isSpicy()));
                 } else if (item instanceof Drink) {
                     Drink drink = (Drink) item;
                     writer.write(String.format("Drink,%s,%.2f,%.2f,%.2f\n", drink.getName(), drink.getPrice(), drink.getVolume(), drink.getSugar()));
                 } else if (item instanceof Dessert) {
                     Dessert dessert = (Dessert) item;
                     writer.write(String.format("Dessert,%s,%.2f,%.2f\n", dessert.getName(), dessert.getPrice(), dessert.getSize()));
+                } else if (item instanceof PromotionItem) {
+                    PromotionItem promo = (PromotionItem) item;
+                    writer.write(String.format("Promotion,%s,%.2f,%.2f,%s\n", promo.getName(), promo.getPrice(), promo.getDiscountRate(), promo.getPromotionDetails()));
                 }
             }
         } catch (IOException e) {
@@ -340,11 +340,37 @@ public class MenuManagementSystem {
     }
 
     private static void viewMenu() {
+        ArrayList<MenuItem> dishes = new ArrayList<>();
+        ArrayList<MenuItem> drinks = new ArrayList<>();
+        ArrayList<MenuItem> desserts = new ArrayList<>();
+        ArrayList<MenuItem> promotions = new ArrayList<>();
+
+        for (MenuItem item : menu.getItems()) {
+            if (item instanceof Dishes) {
+                dishes.add(item);
+            } else if (item instanceof Drink) {
+                drinks.add(item);
+            } else if (item instanceof Dessert) {
+                desserts.add(item);
+            } 
+        }
+
+        System.out.println("Dishes:");
+        displayItems(dishes);
+
+        System.out.println("Drinks:");
+        displayItems(drinks);
+
+        System.out.println("Desserts:");
+        displayItems(desserts);
+    }
+
+    private static void displayItems(ArrayList<MenuItem> items) {
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.printf("| %-20s | %-60s | %-10s | %-30s | %-15s | %-15s |\n", "Name", "Description", "Price", "Promotion Name", "Promotion %", "Final Price");
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-        for (MenuItem item : menu.getItems()) {
+        for (MenuItem item : items) {
             if (item instanceof PromotionItem) {
                 PromotionItem promoItem = (PromotionItem) item;
                 System.out.printf("| %-20s | %-60s | $%-9.2f | %-30s | %-15.0f | $%-14.2f |\n",
@@ -472,4 +498,5 @@ public class MenuManagementSystem {
             System.out.println("Item not found.");
         }
     }
+    
 }
