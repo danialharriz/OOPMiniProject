@@ -2,6 +2,10 @@ Drink,Lemonade,3.50,100.00,2.00
 Dessert,Ice Cream,2.00,2.00
 Dishes,Nasi Ayam,5.00,S,false
 Dishes,Pasta,5.00,M,true
+<<<<<<< Updated upstream
+=======
+Dessert,Cake,15.00,3.00
+>>>>>>> Stashed changes
 Drink,Sirap,2.00,3.00,2.00
 Dessert,Lempeng ,1.50,1.00
 Dishes,Mee Goreng ,3.00,M,true
