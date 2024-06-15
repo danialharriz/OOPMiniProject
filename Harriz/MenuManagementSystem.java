@@ -238,16 +238,18 @@ public class MenuManagementSystem {
                     addItem();
                     break;
                 case 3:
+                    viewMenu();
                     removeItem();
                     break;
                 case 4:
-                    viewPromotionItems();
+                    viewMenu();
                     addPromotion();
                     break;
                 case 5:
                     viewPromotionItems();
                     break;
                 case 6:
+                    viewPromotionItems();
                     removePromotion();
                     break;
                 case 7:
@@ -512,6 +514,7 @@ public class MenuManagementSystem {
     }
 
     private static void addPromotion() {
+        
         System.out.print("Enter the name of the item to add a promotion to: ");
         String name = scanner.nextLine();
     
@@ -534,10 +537,17 @@ public class MenuManagementSystem {
             System.out.println("Promotion added successfully.");
         } else {
             System.out.println("Item not found.");
-        }
+        
+    }
     }
 
     private static void removePromotion() {
+        ArrayList<MenuItem> promotionItems = menu.getPromotionItems();
+        if (promotionItems.isEmpty()) {
+            System.out.println("No promotions available to remove.");
+            return;
+        }
+
         System.out.print("Enter the name of the item to remove the promotion from: ");
         String name = scanner.nextLine();
 
