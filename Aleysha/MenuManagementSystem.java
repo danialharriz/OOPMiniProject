@@ -2,6 +2,8 @@ package Aleysha;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 interface MenuItem {
@@ -314,8 +316,36 @@ public class MenuManagementSystem {
     }
 
     private static void viewMenu() {
-        System.out.println("Menu Items:");
+        ArrayList<MenuItem> dishes = new ArrayList<>();
+        ArrayList<MenuItem> drinks = new ArrayList<>();
+        ArrayList<MenuItem> desserts = new ArrayList<>();
+
         for (MenuItem item : menu.getItems()) {
+            if (item instanceof Dishes) {
+                dishes.add(item);
+            } else if (item instanceof Drink) {
+                drinks.add(item);
+            } else if (item instanceof Dessert) {
+                desserts.add(item);
+            }
+        }
+
+        System.out.println("\nDishes:");
+        printItems(dishes);
+
+        System.out.println("Drinks:");
+        printItems(drinks);
+
+        System.out.println("Desserts:");
+        printItems(desserts);
+    }
+
+    private static void printItems(ArrayList<MenuItem> items) {
+        if (items.isEmpty()) {
+            System.out.println("No items in this category.");
+            return;
+        }
+        for (MenuItem item : items) {
             System.out.println("Name: " + item.getName());
             System.out.println("Description: " + item.getDescription());
             System.out.println("Original Price: $" + item.getPrice());
@@ -445,20 +475,7 @@ public class MenuManagementSystem {
             return;
         }
 
-        System.out.println("Promotion Items:");
-        for (MenuItem item : promotionItems) {
-            System.out.println("Name: " + item.getName());
-            System.out.println("Description: " + item.getDescription());
-            System.out.println("Original Price: $" + item.getPrice());
-            if (item instanceof PromotionItem) {
-                PromotionItem promoItem = (PromotionItem) item;
-                double discountAmount = promoItem.getDiscountRate() * 100;
-                double discountedPrice = promoItem.getDiscountedPrice();
-                System.out.println("Promotion: " + promoItem.getPromotionDetails());
-                System.out.println("Discount Amount: " + discountAmount + "%");
-                System.out.println("Discounted Price: $" + discountedPrice);
-            }
-            System.out.println();
-        }
+        System.out.println("\nPromotion Items:");
+        printItems(promotionItems);
     }
 }
