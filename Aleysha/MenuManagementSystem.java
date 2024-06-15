@@ -2,8 +2,6 @@ package Aleysha;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 interface MenuItem {
@@ -223,7 +221,8 @@ public class MenuManagementSystem {
             System.out.println("3. Remove Item");
             System.out.println("4. Add Promotion");
             System.out.println("5. View Promotion Items");
-            System.out.println("6. Exit");
+            System.out.println("6. Remove Promotion");
+            System.out.println("7. Exit");
             System.out.print("Select an option: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -245,6 +244,9 @@ public class MenuManagementSystem {
                     viewPromotionItems();
                     break;
                 case 6:
+                    removePromotion();
+                    break;
+                case 7:
                     saveMenuToFile();
                     System.out.println("Exiting...");
                     return;
@@ -483,9 +485,23 @@ public class MenuManagementSystem {
 
         MenuItem item = menu.findItem(name);
         if (item != null) {
+            // Remove the promotion if it exists
+            PromotionItem promoItem = null;
+            for (MenuItem menuItem : menu.getItems()) {
+                if (menuItem instanceof PromotionItem) {
+                    PromotionItem tempPromoItem = (PromotionItem) menuItem;
+                    if (tempPromoItem.getName().equals(name)) {
+                        promoItem = tempPromoItem;
+                        break;
+                    }
+                }
+            }
+            if (promoItem != null) {
+                menu.removeItem(promoItem);
+            }
             menu.removeItem(item);
             saveMenuToFile();
-            System.out.println("Item removed successfully.");
+            System.out.println("Item and its promotion removed successfully.");
         } else {
             System.out.println("Item not found.");
         }
@@ -509,6 +525,29 @@ public class MenuManagementSystem {
             System.out.println("Promotion added successfully.");
         } else {
             System.out.println("Item not found.");
+        }
+    }
+
+    private static void removePromotion() {
+        System.out.print("Enter the name of the item to remove the promotion from: ");
+        String name = scanner.nextLine();
+
+        PromotionItem promoItem = null;
+        for (MenuItem menuItem : menu.getItems()) {
+            if (menuItem instanceof PromotionItem) {
+                PromotionItem tempPromoItem = (PromotionItem) menuItem;
+                if (tempPromoItem.getName().equals(name)) {
+                    promoItem = tempPromoItem;
+                    break;
+                }
+            }
+        }
+        if (promoItem != null) {
+            menu.removeItem(promoItem);
+            saveMenuToFile();
+            System.out.println("Promotion removed successfully.");
+        } else {
+            System.out.println("Promotion not found.");
         }
     }
 }
