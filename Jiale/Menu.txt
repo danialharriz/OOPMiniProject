@@ -1,3 +1,8 @@
-Dishes,Nasi Goreng,12.99,M,true
-Drink,Teh Tarik,3.99,250.00,10.00
-Drink,Lemonade,3.50,100.00,2.00
+Drink,Teh O Ais,1.50,120.00,2.30
+Drink,Teh Ais,3.00,120.00,2.60
+Promotion,Nasi Ayam Geprek,11.20,0.20,20% OFF
+Dishes,Kentang Goreng,5.00,M,0
+Dessert,Ais Kacang,3.50,120.00
+Dessert,ABC,4.50,120.00
+Dessert,Vanilla Icecream,2.00,80.00
+Dishes,Nasi Ayam,8.00,L,1
