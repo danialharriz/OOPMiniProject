@@ -319,7 +319,7 @@ public class MenuManagementSystem {
         ArrayList<MenuItem> dishes = new ArrayList<>();
         ArrayList<MenuItem> drinks = new ArrayList<>();
         ArrayList<MenuItem> desserts = new ArrayList<>();
-
+    
         for (MenuItem item : menu.getItems()) {
             if (item instanceof Dishes) {
                 dishes.add(item);
@@ -329,15 +329,59 @@ public class MenuManagementSystem {
                 desserts.add(item);
             }
         }
-
+    
         System.out.println("\nDishes:");
-        printItems(dishes);
-
+        printItemsInTable(dishes);
+    
         System.out.println("Drinks:");
-        printItems(drinks);
-
+        printItemsInTable(drinks);
+    
         System.out.println("Desserts:");
-        printItems(desserts);
+        printItemsInTable(desserts);
+    }
+    
+    private static void viewPromotionItems() {
+        ArrayList<MenuItem> promotionItems = menu.getPromotionItems();
+        if (promotionItems.isEmpty()) {
+            System.out.println("No discount item available");
+            return;
+        }
+    
+        System.out.println("\nPromotion Items:");
+        printItemsInTable(promotionItems);
+    }
+    
+    private static void printItemsInTable(ArrayList<MenuItem> items) {
+        if (items.isEmpty()) {
+            System.out.println("No items in this category.");
+            return;
+        }
+    
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-20s | %-60s | %-10s | %-30s | %-15s | %-15s |\n", "Name", "Description", "Price", "Promotion Details", "Discount Rate", "Discounted Price");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    
+        for (MenuItem item : items) {
+            if (item instanceof PromotionItem) {
+                PromotionItem promoItem = (PromotionItem) item;
+                System.out.printf("| %-20s | %-60s | $%-9.2f | %-30s | %-15.0f | $%-14.2f |\n",
+                        promoItem.getName(),
+                        promoItem.getDescription(),
+                        promoItem.getPrice(),
+                        promoItem.getPromotionDetails(),
+                        promoItem.getDiscountRate() * 100,
+                        promoItem.getDiscountedPrice());
+            } else {
+                System.out.printf("| %-20s | %-60s | $%-9.2f | %-30s | %-15s | %-15s |\n",
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        "N/A",
+                        "N/A",
+                        "N/A");
+            }
+            System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
     }
 
     private static void printItems(ArrayList<MenuItem> items) {
@@ -466,16 +510,5 @@ public class MenuManagementSystem {
         } else {
             System.out.println("Item not found.");
         }
-    }
-
-    private static void viewPromotionItems() {
-        ArrayList<MenuItem> promotionItems = menu.getPromotionItems();
-        if (promotionItems.isEmpty()) {
-            System.out.println("No discount item available");
-            return;
-        }
-
-        System.out.println("\nPromotion Items:");
-        printItems(promotionItems);
     }
 }

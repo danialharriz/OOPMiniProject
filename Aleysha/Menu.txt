@@ -5,3 +5,5 @@ Dessert,Ice Cream,2.00,2.00
 Dishes,Nasi Ayam,5.00,S,false
 Dishes,Pasta,5.00,M,true
 Promotion,Pasta,5.00,10% off,0.10
+Promotion,Teh Tarik,3.99,kaw,0.10
+Promotion,Teh Tarik,3.99,20% OFF,0.20
