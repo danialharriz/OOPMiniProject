@@ -213,6 +213,9 @@ public class MenuManagementSystem {
     public static void main(String[] args) {
         // Load the menu from a file
         loadMenuFromFile();
+        System.out.println("------------------------------------------------------");
+        System.out.println("| Welcome to Universal Sambal Menu Management System |");
+        System.out.println("------------------------------------------------------");
 
         // Main menu loop
         while (true) {
@@ -238,6 +241,7 @@ public class MenuManagementSystem {
                     removeItem();
                     break;
                 case 4:
+                    viewPromotionItems();
                     addPromotion();
                     break;
                 case 5:
@@ -510,15 +514,20 @@ public class MenuManagementSystem {
     private static void addPromotion() {
         System.out.print("Enter the name of the item to add a promotion to: ");
         String name = scanner.nextLine();
-
+    
         MenuItem item = menu.findItem(name);
         if (item != null) {
+            if (item instanceof PromotionItem) {
+                System.out.println("This item already has a promotion. Please remove the existing promotion before adding a new one.");
+                return;
+            }
+    
             System.out.print("Enter promotion details: ");
             String promotionDetails = scanner.nextLine();
             System.out.print("Enter discount rate (e.g., 0.20 for 20%): ");
             double discountRate = scanner.nextDouble();
             scanner.nextLine(); // Consume newline
-
+    
             PromotionItem promoItem = new PromotionItem(item, promotionDetails, discountRate);
             menu.addItem(promoItem);
             saveMenuToFile();
@@ -529,9 +538,15 @@ public class MenuManagementSystem {
     }
 
     private static void removePromotion() {
+        ArrayList<MenuItem> promotionItems = menu.getPromotionItems();
+        if (promotionItems.isEmpty()) {
+            System.out.println("No promotions available to remove.");
+            return;
+        }
+        
         System.out.print("Enter the name of the item to remove the promotion from: ");
         String name = scanner.nextLine();
-
+    
         PromotionItem promoItem = null;
         for (MenuItem menuItem : menu.getItems()) {
             if (menuItem instanceof PromotionItem) {
@@ -550,4 +565,5 @@ public class MenuManagementSystem {
             System.out.println("Promotion not found.");
         }
     }
+      
 }
