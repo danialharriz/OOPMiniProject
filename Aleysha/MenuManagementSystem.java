@@ -1,3 +1,5 @@
+package Aleysha;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -204,7 +206,7 @@ class Dessert implements MenuItem {
 }
 
 public class MenuManagementSystem {
-    private static final String MENU_FILE = "Menu.txt";
+    private static final String MENU_FILE = "Aleysha/Menu.txt";
     private static Scanner scanner = new Scanner(System.in);
     private static Menu menu = new Menu();
 
