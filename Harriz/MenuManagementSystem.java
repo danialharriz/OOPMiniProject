@@ -72,8 +72,14 @@ class Menu {
         for (int i = 0; i < items.size(); i++) {
             MenuItem existingItem = items.get(i);
             if (existingItem.getName().equals(name)) {
-                PromotionItem promoItem = new PromotionItem(existingItem, promotionDetails, discountRate);
-                items.set(i, promoItem);
+                if (existingItem instanceof PromotionItem) {
+                    PromotionItem promoItem = (PromotionItem) existingItem;
+                    promoItem.setPromotionDetails(promotionDetails);
+                    promoItem.setDiscountRate(discountRate);
+                } else {
+                    PromotionItem promoItem = new PromotionItem(existingItem, promotionDetails, discountRate);
+                    items.set(i, promoItem);
+                }
                 return;
             }
         }
@@ -340,37 +346,11 @@ public class MenuManagementSystem {
     }
 
     private static void viewMenu() {
-        ArrayList<MenuItem> dishes = new ArrayList<>();
-        ArrayList<MenuItem> drinks = new ArrayList<>();
-        ArrayList<MenuItem> desserts = new ArrayList<>();
-        ArrayList<MenuItem> promotions = new ArrayList<>();
-
-        for (MenuItem item : menu.getItems()) {
-            if (item instanceof Dishes) {
-                dishes.add(item);
-            } else if (item instanceof Drink) {
-                drinks.add(item);
-            } else if (item instanceof Dessert) {
-                desserts.add(item);
-            } 
-        }
-
-        System.out.println("Dishes:");
-        displayItems(dishes);
-
-        System.out.println("Drinks:");
-        displayItems(drinks);
-
-        System.out.println("Desserts:");
-        displayItems(desserts);
-    }
-
-    private static void displayItems(ArrayList<MenuItem> items) {
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.printf("| %-20s | %-60s | %-10s | %-30s | %-15s | %-15s |\n", "Name", "Description", "Price", "Promotion Name", "Promotion %", "Final Price");
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-        for (MenuItem item : items) {
+        for (MenuItem item : menu.getItems()) {
             if (item instanceof PromotionItem) {
                 PromotionItem promoItem = (PromotionItem) item;
                 System.out.printf("| %-20s | %-60s | $%-9.2f | %-30s | %-15.0f | $%-14.2f |\n",
@@ -498,5 +478,4 @@ public class MenuManagementSystem {
             System.out.println("Item not found.");
         }
     }
-    
 }
