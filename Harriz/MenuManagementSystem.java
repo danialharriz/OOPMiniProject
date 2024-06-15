@@ -238,7 +238,7 @@ public class MenuManagementSystem {
             System.out.println("2. Add Item");
             System.out.println("3. Remove Item");
             System.out.println("4. Add Promotion");
-            System.out.println("5. Remove Promotion");
+            System.out.println("5. View Promotions");
             System.out.println("6. Exit");
             System.out.print("Select an option: ");
             int option = scanner.nextInt();
@@ -267,9 +267,9 @@ public class MenuManagementSystem {
                     System.out.println();
                     break;
                 case 5:
-                    System.out.println("Remove Promotion");
-                    System.out.println("Haven't done");
-                    System.out.println();
+                System.out.println("View Promotions");
+                viewPromotions();
+                System.out.println();
                     break;
                 case 6:
                     saveMenuToFile();
@@ -476,6 +476,26 @@ public class MenuManagementSystem {
             System.out.println("Promotion added successfully.");
         } else {
             System.out.println("Item not found.");
+        }
+    }
+
+    private static void viewPromotions() {
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-20s | %-60s | %-10s | %-30s | %-15s | %-15s |\n", "Name", "Description", "Price", "Promotion Name", "Promotion %", "Final Price");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    
+        for (MenuItem item : menu.getItems()) {
+            if (item instanceof PromotionItem) {
+                PromotionItem promoItem = (PromotionItem) item;
+                System.out.printf("| %-20s | %-60s | $%-9.2f | %-30s | %-15.0f | $%-14.2f |\n",
+                        promoItem.getName(),
+                        promoItem.getDescription(),
+                        promoItem.getPrice(),
+                        promoItem.getPromotionDetails(),
+                        promoItem.getDiscountRate() * 100,
+                        promoItem.getDiscountedPrice(promoItem.getPrice()));
+                System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            }
         }
     }
 }
