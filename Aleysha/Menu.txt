@@ -7,3 +7,5 @@ Promotion,Pasta,5.00,10% off,0.10
 Dessert,Cake,15.00,3.00
 Promotion,Cake,15.00,10% off,0.10
 Drink,Sirap,2.00,3.00,2.00
+Dessert,Lempeng ,1.50,1.00
+Dishes,Mee Goreng ,3.00,M,true
