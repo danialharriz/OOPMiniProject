@@ -1,5 +1,4 @@
 Dishes,Nasi Goreng,12.99,M,3
-Drink,Teh Tarik,3.99,250.00,10.00
-Promotion,Lemonade,3.50,0.10,Kaw
+Promotion,Teh Tarik,3.99,0.10,kaw
 Dishes,Bakso,5.00,S,0
 Dishes,Ayam,20.00,S,3
