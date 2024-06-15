@@ -3,5 +3,3 @@ Drink,Lemonade,3.50,100.00,2.00
 Dishes,Bakso,5.00,S,false
 Dessert,Ice Cream,2.00,2.00
 Dishes,Nasi Ayam,5.00,S,false
-Dishes,Pasta,5.00,M,true
-Promotion,Pasta,5.00,10% off,0.10
