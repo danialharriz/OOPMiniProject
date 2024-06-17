@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="508aadaf-bf25-4ba5-888e-2631f3f39f55" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Jiale.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dessert.class" beforeDir="false" afterPath="$PROJECT_DIR$/Dessert.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DessertRecipe.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DishRecipe.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dishes.class" beforeDir="false" afterPath="$PROJECT_DIR$/Dishes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Drink.class" beforeDir="false" afterPath="$PROJECT_DIR$/Drink.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DrinkRecipe.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Harriz.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/Menu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Menu.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Menu.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/MenuItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagementSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagementSystem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagementSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagementSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PromotionItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/PromotionItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Recipe.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/Dessert.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/Dishes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/Drink.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/Harriz.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/Menu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/Menu.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/MenuItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/MenuManagementSystem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/PromotionItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Harriz/Harriz/readme.md" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2hzxg9SRWVR33XPbpIfPvoKyiuC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MenuManagementSystem.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="MenuManagementSystem" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Aleysha.MenuManagementSystem" />
+      <module name="Jiale" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Aleysha.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MenuManagementSystem" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-20.0.2-corretto-20.0.2.1-4caba194b151-5bc9ecd2" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="508aadaf-bf25-4ba5-888e-2631f3f39f55" name="Changes" comment="" />
+      <created>1718610818471</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718610818471</updated>
+    </task>
+    <servers />
+  </component>
+</project>
