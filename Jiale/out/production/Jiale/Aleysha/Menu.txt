@@ -1,5 +1,5 @@
 Drink,Lemonade,3.50,100.00,2.00
-Dessert,Ice Cream,2.00,2.00
+Dessert,Ice Cream,2.00,2.00,Promotion,Ice Cream,Good Deals,0.30
 Dishes,Nasi Ayam,5.00,S,false
 Dishes,Pasta,5.00,M,true
 Drink,Sirap,2.00,3.00,2.00
@@ -7,4 +7,4 @@ Dessert,Lempeng ,1.50,1.00
 Dishes,Mee Goreng ,3.00,M,true
 Drink,Milo ,3.00,2.00,2.00
 Dishes,Speghetti Carbonara,20.00,M,false
-Promotion,Speghetti Carbonara,20.00,Large Deals,0.50
+Dishes,Dodo,2.00,S,true,Promotion,Dodo,Good Deals,0.40

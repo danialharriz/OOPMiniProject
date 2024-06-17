@@ -2,6 +2,7 @@ package Aleysha;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 interface PriceCalculable{
@@ -15,6 +16,7 @@ abstract class MenuItem {
     public abstract double getPrice();
     public abstract String getDescription();
     public abstract double getTaxPrice();
+    public abstract boolean checkItemExist(MenuItem item);
     public double calcTax(double tax){
         return tax*(1+PriceCalculable.SERVICE_TAX);
     }
@@ -57,6 +59,16 @@ class PromotionItem extends MenuItem {
     public double getDiscountRate() {
         return discountRate;
     }
+
+    public MenuItem getItem() {return item;}
+
+    public boolean checkItemExist(MenuItem items){
+        String name = item.getName();
+        if(items.getName().equals(name)){
+            return true;
+        }
+        else return false;
+    };
 
     public double getDiscountedPrice() {
         return item.getPrice() - (item.getPrice() * discountRate);
@@ -141,6 +153,12 @@ class Dishes extends MenuItem {
     public boolean isSpicy() {
         return spicy;
     }
+    public boolean checkItemExist(MenuItem items){
+        if(items.getName().equals(dishType)){
+            return true;
+        }
+        else return false;
+    };
 }
 
 class Drink extends MenuItem {
@@ -186,6 +204,12 @@ class Drink extends MenuItem {
     public double getSugar() {
         return sugar;
     }
+    public boolean checkItemExist(MenuItem items){
+        if(items.getName().equals(drinkType)){
+            return true;
+        }
+        else return false;
+    };
 }
 
 class Dessert extends MenuItem {
@@ -225,6 +249,12 @@ class Dessert extends MenuItem {
     public double getSize() {
         return size;
     }
+    public boolean checkItemExist(MenuItem items){
+        if(items.getName().equals(dessertType)){
+            return true;
+        }
+        else return false;
+    };
 }
 
 public class MenuManagementSystem {
@@ -293,25 +323,43 @@ public class MenuManagementSystem {
                         char size = parts[3].charAt(0);
                         boolean spicy = Boolean.parseBoolean(parts[4]);
                         menu.addItem(new Dishes(dishPrice, parts[1], size, spicy));
+                        if(parts.length > 5 && parts[5].equals("Promotion")){
+                            String promotionDetails = parts[7];
+                            double discountRate = Double.parseDouble(parts[8]);
+                            MenuItem baseItem = menu.findItem(parts[6]);
+                            if (baseItem != null) {
+                                PromotionItem promoItem = new PromotionItem(baseItem, promotionDetails, discountRate);
+                                menu.addItem(promoItem);
+                            }
+                        }
                         break;
                     case "Drink":
                         double drinkPrice = Double.parseDouble(parts[2]);
                         double volume = Double.parseDouble(parts[3]);
                         double sugar = Double.parseDouble(parts[4]);
                         menu.addItem(new Drink(drinkPrice, parts[1], volume, sugar));
+                        if(parts.length > 5 && parts[5].equals("Promotion")){
+                            String promotionDetails = parts[7];
+                            double discountRate = Double.parseDouble(parts[8]);
+                            MenuItem baseItem = menu.findItem(parts[6]);
+                            if (baseItem != null) {
+                                PromotionItem promoItem = new PromotionItem(baseItem, promotionDetails, discountRate);
+                                menu.addItem(promoItem);
+                            }
+                        }
                         break;
                     case "Dessert":
                         double dessertPrice = Double.parseDouble(parts[2]);
                         double dessertSize = Double.parseDouble(parts[3]);
                         menu.addItem(new Dessert(dessertPrice, parts[1], dessertSize));
-                        break;
-                    case "Promotion":
-                        String promotionDetails = parts[3];
-                        double discountRate = Double.parseDouble(parts[4]);
-                        MenuItem baseItem = menu.findItem(parts[1]);
-                        if (baseItem != null) {
-                            PromotionItem promoItem = new PromotionItem(baseItem, promotionDetails, discountRate);
-                            menu.addItem(promoItem);
+                        if(parts.length > 4 && parts[4].equals("Promotion")){
+                            String promotionDetails = parts[6];
+                            double discountRate = Double.parseDouble(parts[7]);
+                            MenuItem baseItem = menu.findItem(parts[5]);
+                            if (baseItem != null) {
+                                PromotionItem promoItem = new PromotionItem(baseItem, promotionDetails, discountRate);
+                                menu.addItem(promoItem);
+                            }
                         }
                         break;
                 }
@@ -322,50 +370,129 @@ public class MenuManagementSystem {
     }
 
     private static void saveMenuToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MENU_FILE))) {
-            for (MenuItem item : menu.getItems()) {
-                if (item instanceof Dishes) {
-                    Dishes dish = (Dishes) item;
-                    writer.write(String.format("Dishes,%s,%.2f,%c,%b\n", dish.getName(), dish.getPrice(), dish.getSize(), dish.isSpicy()));
-                } else if (item instanceof Drink) {
-                    Drink drink = (Drink) item;
-                    writer.write(String.format("Drink,%s,%.2f,%.2f,%.2f\n", drink.getName(), drink.getPrice(), drink.getVolume(), drink.getSugar()));
-                } else if (item instanceof Dessert) {
-                    Dessert dessert = (Dessert) item;
-                    writer.write(String.format("Dessert,%s,%.2f,%.2f\n", dessert.getName(), dessert.getPrice(), dessert.getSize()));
-                } else if (item instanceof PromotionItem) {
-                    PromotionItem promoItem = (PromotionItem) item;
-                    writer.write(String.format("Promotion,%s,%.2f,%s,%.2f\n", promoItem.getName(), promoItem.getPrice(), promoItem.getPromotionDetails(), promoItem.getDiscountRate()));
+        List<String> updatedMenuItems = new ArrayList<>();
+
+        for (MenuItem item : menu.getItems()) {
+            String itemName = item.getName();
+            String newItemLine = getItemLine(item);
+            boolean itemExists = false;
+
+            // Use checkItemExist method to check if the item exists
+            for (MenuItem existingItem : menu.getItems()) {
+                if (existingItem.checkItemExist(item)) {
+                    // Find the corresponding line in updatedMenuItems and update it
+                    for (int i = 0; i < updatedMenuItems.size(); i++) {
+                        if (updatedMenuItems.get(i).contains(itemName)) {
+                            updatedMenuItems.set(i, newItemLine);
+                            itemExists = true;
+                            break;
+                        }
+                    }
+                    break;
                 }
+            }
+
+            if (!itemExists) {
+                updatedMenuItems.add(newItemLine);
+            }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MENU_FILE))) {
+            for (String line : updatedMenuItems) {
+                writer.write(line);
+                writer.newLine();
             }
         } catch (IOException e) {
             System.out.println("Error saving menu: " + e.getMessage());
         }
     }
 
+    private static String getItemLine(MenuItem item) {
+        if (item instanceof PromotionItem promoItem) {
+            MenuItem baseItem = promoItem.getItem();
+            if (baseItem instanceof Dishes dish) {
+                return String.format("Dishes,%s,%.2f,%c,%b,Promotion,%s,%s,%.2f",
+                        dish.getName(), dish.getPrice(), dish.getSize(), dish.isSpicy(),
+                        promoItem.getName(), promoItem.getPromotionDetails(), promoItem.getDiscountRate());
+            } else if (baseItem instanceof Drink drink) {
+                return String.format("Drink,%s,%.2f,%.2f,%.2f,Promotion,%s,%s,%.2f",
+                        drink.getName(), drink.getPrice(), drink.getVolume(), drink.getSugar(),
+                        promoItem.getName(), promoItem.getPromotionDetails(), promoItem.getDiscountRate());
+            } else if (baseItem instanceof Dessert dessert) {
+                return String.format("Dessert,%s,%.2f,%.2f,Promotion,%s,%s,%.2f",
+                        dessert.getName(), dessert.getPrice(), dessert.getSize(),
+                        promoItem.getName(), promoItem.getPromotionDetails(), promoItem.getDiscountRate());
+            }
+        } else if (item instanceof Dishes dish) {
+            return String.format("Dishes,%s,%.2f,%c,%b",
+                    dish.getName(), dish.getPrice(), dish.getSize(), dish.isSpicy());
+        } else if (item instanceof Drink drink) {
+            return String.format("Drink,%s,%.2f,%.2f,%.2f",
+                    drink.getName(), drink.getPrice(), drink.getVolume(), drink.getSugar());
+        } else if (item instanceof Dessert dessert) {
+            return String.format("Dessert,%s,%.2f,%.2f",
+                    dessert.getName(), dessert.getPrice(), dessert.getSize());
+        }
+        return "";
+    }
+
     private static void viewMenu() {
         ArrayList<MenuItem> dishes = new ArrayList<>();
         ArrayList<MenuItem> drinks = new ArrayList<>();
         ArrayList<MenuItem> desserts = new ArrayList<>();
-    
+        ArrayList<PromotionItem> promoItems = new ArrayList<>();
+
+        // Separate promotion items first
         for (MenuItem item : menu.getItems()) {
-            if (item instanceof Dishes) {
-                dishes.add(item);
-            } else if (item instanceof Drink) {
-                drinks.add(item);
-            } else if (item instanceof Dessert) {
-                desserts.add(item);
+            if (item instanceof PromotionItem) {
+                promoItems.add((PromotionItem) item);
             }
         }
-    
+
+        // Process promotion items first to avoid duplicates
+        for (PromotionItem promo : promoItems) {
+            MenuItem baseItem = promo.getItem();
+            if (baseItem instanceof Dishes) {
+                dishes.add(promo);
+            } else if (baseItem instanceof Drink) {
+                drinks.add(promo);
+            } else if (baseItem instanceof Dessert) {
+                desserts.add(promo);
+            }
+        }
+
+        // Process other items, add only if they don't have promotions
+        for (MenuItem item : menu.getItems()) {
+            boolean hasPromotion = false;
+            for (PromotionItem promo : promoItems) {
+                if (promo.getItem().checkItemExist(item)) {
+                    hasPromotion = true;
+                    break;
+                }
+            }
+
+            if (!hasPromotion) {
+                if (item instanceof Dishes) {
+                    dishes.add(item);
+                } else if (item instanceof Drink) {
+                    drinks.add(item);
+                } else if (item instanceof Dessert) {
+                    desserts.add(item);
+                }
+            }
+        }
+
         System.out.println("\nDishes:");
         printItemsInTable(dishes);
-    
+        System.out.println();
+
         System.out.println("Drinks:");
         printItemsInTable(drinks);
-    
+        System.out.println();
+
         System.out.println("Desserts:");
         printItemsInTable(desserts);
+        System.out.println();
     }
     
     private static void viewPromotionItems() {
