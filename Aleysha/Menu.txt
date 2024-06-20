@@ -2,13 +2,11 @@ Drink,Lemonade,3.50,100.00,2.00
 Dessert,Ice Cream,2.00,2.00
 Dishes,Nasi Ayam,5.00,S,false
 Drink,Sirap,2.00,3.00,2.00
-Dessert,Lempeng ,1.50,1.00
 Dishes,Mee Goreng ,3.00,M,true
-Drink,Milo ,3.00,2.00,2.00
-<<<<<<< Updated upstream
-Promotion,Ice Cream,2.00,TestAdd1,0.10
-=======
 Dishes,Bakso,5.00,S,true
 Drink,Oren,3.00,2.00,2.00
+Promotion,Nasi Ayam,5.00,50% off,0.50
+Drink,Milo,3.00,2.00,2.00
+Dessert,Lempeng,1.50,1.00
 Dessert,Roti Jala,3.00,2.00
->>>>>>> Stashed changes
+Promotion,Milo,3.00,10% off,0.10
