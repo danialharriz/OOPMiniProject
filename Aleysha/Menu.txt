@@ -6,3 +6,4 @@ Drink,Sirap,2.00,3.00,2.00
 Dessert,Lempeng ,1.50,1.00
 Dishes,Mee Goreng ,3.00,M,true
 Drink,Milo ,3.00,2.00,2.00
+Promotion,Pasta,5.00,Test2,0.10

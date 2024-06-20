@@ -4,13 +4,24 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-interface MenuItem {
-    String getName();
-    double getPrice();
-    String getDescription();
+interface PriceCalculable{
+    public final static double SERVICE_TAX = 0.06;
+    public double calcTax(double tax);
 }
 
-class PromotionItem implements MenuItem {
+abstract class MenuItem {
+    private double price;
+    public abstract String getName();
+    public abstract double getPrice();
+    public abstract String getDescription();
+    public abstract double getTaxPrice();
+    public abstract boolean checkItemExist(MenuItem item);
+    public double calcTax(double tax){
+        return tax*(1+PriceCalculable.SERVICE_TAX);
+    }
+}
+
+class PromotionItem extends MenuItem {
     private MenuItem item;
     private String promotionDetails;
     private double discountRate;
@@ -31,6 +42,10 @@ class PromotionItem implements MenuItem {
         return item.getPrice();
     }
 
+    public double getTaxPrice(){
+        return item.getTaxPrice();
+    }
+
     @Override
     public String getDescription() {
         return item.getDescription();
@@ -43,6 +58,16 @@ class PromotionItem implements MenuItem {
     public double getDiscountRate() {
         return discountRate;
     }
+
+    public MenuItem getItem() {return item;}
+
+    public boolean checkItemExist(MenuItem items){
+        String name = item.getName();
+        if(items.getName().equals(name)){
+            return true;
+        }
+        else return false;
+    };
 
     public double getDiscountedPrice() {
         return item.getPrice() - (item.getPrice() * discountRate);
@@ -88,7 +113,7 @@ class Menu {
     }
 }
 
-class Dishes implements MenuItem {
+class Dishes extends MenuItem {
     private double price;
     private char size;
     private String dishType;
@@ -116,8 +141,8 @@ class Dishes implements MenuItem {
         return "Dish Type: " + dishType + ", Size: " + size + ", Spicy: " + spicy;
     }
 
-    public String getDishType() {
-        return dishType;
+    public double getTaxPrice() {
+        return calcTax(price);
     }
 
     public char getSize() {
@@ -127,9 +152,15 @@ class Dishes implements MenuItem {
     public boolean isSpicy() {
         return spicy;
     }
+    public boolean checkItemExist(MenuItem items){
+        if(items.getName().equals(dishType)){
+            return true;
+        }
+        else return false;
+    };
 }
 
-class Drink implements MenuItem {
+class Drink extends MenuItem {
     private double price;
     private double volume;
     private double sugar;
@@ -152,6 +183,10 @@ class Drink implements MenuItem {
         return price;
     }
 
+    public double getTaxPrice() {
+        return calcTax(price);
+    }
+
     @Override
     public String getDescription() {
         return "Drink Type: " + drinkType + ", Volume: " + volume + "ml, Sugar: " + sugar + "g";
@@ -168,9 +203,15 @@ class Drink implements MenuItem {
     public double getSugar() {
         return sugar;
     }
+    public boolean checkItemExist(MenuItem items){
+        if(items.getName().equals(drinkType)){
+            return true;
+        }
+        else return false;
+    };
 }
 
-class Dessert implements MenuItem {
+class Dessert extends MenuItem {
     private double price;
     private String dessertType;
     private double size;
@@ -191,6 +232,10 @@ class Dessert implements MenuItem {
         return price;
     }
 
+    public double getTaxPrice() {
+        return calcTax(price);
+    }
+
     @Override
     public String getDescription() {
         return "Dessert Type: " + dessertType + ", Size: " + size + "g";
@@ -203,6 +248,12 @@ class Dessert implements MenuItem {
     public double getSize() {
         return size;
     }
+    public boolean checkItemExist(MenuItem items){
+        if(items.getName().equals(dessertType)){
+            return true;
+        }
+        else return false;
+    };
 }
 
 public class MenuManagementSystem {
@@ -327,25 +378,59 @@ public class MenuManagementSystem {
         ArrayList<MenuItem> dishes = new ArrayList<>();
         ArrayList<MenuItem> drinks = new ArrayList<>();
         ArrayList<MenuItem> desserts = new ArrayList<>();
-    
+        ArrayList<PromotionItem> promoItems = new ArrayList<>();
+
+        // Separate promotion items first
         for (MenuItem item : menu.getItems()) {
-            if (item instanceof Dishes) {
-                dishes.add(item);
-            } else if (item instanceof Drink) {
-                drinks.add(item);
-            } else if (item instanceof Dessert) {
-                desserts.add(item);
+            if (item instanceof PromotionItem) {
+                promoItems.add((PromotionItem) item);
             }
         }
-    
+
+        // Process promotion items first to avoid duplicates
+        for (PromotionItem promo : promoItems) {
+            MenuItem baseItem = promo.getItem();
+            if (baseItem instanceof Dishes) {
+                dishes.add(promo);
+            } else if (baseItem instanceof Drink) {
+                drinks.add(promo);
+            } else if (baseItem instanceof Dessert) {
+                desserts.add(promo);
+            }
+        }
+
+        // Process other items, add only if they don't have promotions
+        for (MenuItem item : menu.getItems()) {
+            boolean hasPromotion = false;
+            for (PromotionItem promo : promoItems) {
+                if (promo.getItem().checkItemExist(item)) {
+                    hasPromotion = true;
+                    break;
+                }
+            }
+
+            if (!hasPromotion) {
+                if (item instanceof Dishes) {
+                    dishes.add(item);
+                } else if (item instanceof Drink) {
+                    drinks.add(item);
+                } else if (item instanceof Dessert) {
+                    desserts.add(item);
+                }
+            }
+        }
+
         System.out.println("\nDishes:");
         printItemsInTable(dishes);
-    
+        System.out.println();
+
         System.out.println("Drinks:");
         printItemsInTable(drinks);
-    
+        System.out.println();
+
         System.out.println("Desserts:");
         printItemsInTable(desserts);
+        System.out.println();
     }
     
     private static void viewPromotionItems() {
@@ -389,27 +474,6 @@ public class MenuManagementSystem {
                         "N/A");
             }
             System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        }
-    }
-
-    private static void printItems(ArrayList<MenuItem> items) {
-        if (items.isEmpty()) {
-            System.out.println("No items in this category.");
-            return;
-        }
-        for (MenuItem item : items) {
-            System.out.println("Name: " + item.getName());
-            System.out.println("Description: " + item.getDescription());
-            System.out.println("Original Price: $" + item.getPrice());
-            if (item instanceof PromotionItem) {
-                PromotionItem promoItem = (PromotionItem) item;
-                double discountAmount = promoItem.getDiscountRate() * 100;
-                double discountedPrice = promoItem.getDiscountedPrice();
-                System.out.println("Promotion: " + promoItem.getPromotionDetails());
-                System.out.println("Discount Amount: " + discountAmount + "%");
-                System.out.println("Discounted Price: $" + discountedPrice);
-            }
-            System.out.println();
         }
     }
 
@@ -569,7 +633,5 @@ public class MenuManagementSystem {
             System.out.println("Promotion not found.");
         }
     }
-    
-
     
 }

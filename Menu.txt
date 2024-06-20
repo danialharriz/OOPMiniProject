@@ -1,1 +1,2 @@
-Dishes,Nasi Lemak,5.00,M,true,Promotion,Nasi Lemak,Kaw,0.20
+Dishes,Nasi Lemak,5.00,M,true,Promotion,Nasi Lemak,Kaw Kaw Kaw,1.00
+Drink,TestDrink1,25.00,150.00,120.00,Promotion,TestDrink1,TestKaw,0.20
