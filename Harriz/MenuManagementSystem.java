@@ -72,6 +72,14 @@ class PromotionItem extends MenuItem {
     public double getDiscountedPrice() {
         return item.getPrice() - (item.getPrice() * discountRate);
     }
+
+    public void setPromotionDetails(String promotionDetails) {
+        this.promotionDetails = promotionDetails;
+    }
+    
+    public void setDiscountRate(double discountRate) {
+        this.discountRate = discountRate;
+    }
 }
 
 class Menu {
@@ -578,31 +586,50 @@ public class MenuManagementSystem {
     }
 
     private static void addPromotion() {
-        
         System.out.print("Enter the name of the item to add a promotion to: ");
         String name = scanner.nextLine();
     
         MenuItem item = menu.findItem(name);
         if (item != null) {
-            if (item instanceof PromotionItem) {
-                System.out.println("This item already has a promotion. Please remove the existing promotion before adding a new one.");
-                return;
+            // Check if the item already has a promotion
+            PromotionItem existingPromoItem = null;
+            for (MenuItem menuItem : menu.getItems()) {
+                if (menuItem instanceof PromotionItem) {
+                    PromotionItem tempPromoItem = (PromotionItem) menuItem;
+                    if (tempPromoItem.getName().equals(name)) {
+                        existingPromoItem = tempPromoItem;
+                        break;
+                    }
+                }
             }
     
-            System.out.print("Enter promotion details: ");
-            String promotionDetails = scanner.nextLine();
-            System.out.print("Enter discount rate (e.g., 0.20 for 20%): ");
-            double discountRate = scanner.nextDouble();
-            scanner.nextLine(); // Consume newline
+            if (existingPromoItem != null) {
+                System.out.print("Enter new promotion details: ");
+                String promotionDetails = scanner.nextLine();
+                System.out.print("Enter new discount rate (e.g., 0.20 for 20%): ");
+                double discountRate = scanner.nextDouble();
+                scanner.nextLine(); // Consume newline
     
-            PromotionItem promoItem = new PromotionItem(item, promotionDetails, discountRate);
-            menu.addItem(promoItem);
-            saveMenuToFile();
-            System.out.println("Promotion added successfully.");
+                // Update the existing promotion item
+                existingPromoItem.setPromotionDetails(promotionDetails);
+                existingPromoItem.setDiscountRate(discountRate);
+                saveMenuToFile();
+                System.out.println("Promotion updated successfully.");
+            } else {
+                System.out.print("Enter promotion details: ");
+                String promotionDetails = scanner.nextLine();
+                System.out.print("Enter discount rate (e.g., 0.20 for 20%): ");
+                double discountRate = scanner.nextDouble();
+                scanner.nextLine(); // Consume newline
+    
+                PromotionItem promoItem = new PromotionItem(item, promotionDetails, discountRate);
+                menu.addItem(promoItem);
+                saveMenuToFile();
+                System.out.println("Promotion added successfully.");
+            }
         } else {
             System.out.println("Item not found.");
-        
-    }
+        }
     }
 
     private static void removePromotion() {
