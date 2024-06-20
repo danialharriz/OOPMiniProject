@@ -275,9 +275,12 @@ public class MenuManagementSystem {
         System.out.println("------------------------------------------------------");
         System.out.println("| Welcome to Universal Sambal Menu Management System |");
         System.out.println("------------------------------------------------------");
+        
 
         // Main menu loop
         while (true) {
+            
+            System.out.println("\nMain Menu:");
             System.out.println("1. View Menu");
             System.out.println("2. Add Item");
             System.out.println("3. Remove Item");
@@ -486,9 +489,10 @@ public class MenuManagementSystem {
     }
 
     private static void addItem() {
-        System.out.println("1. Add Dish");
+        System.out.println("\n\n1. Add Dish");
         System.out.println("2. Add Drink");
         System.out.println("3. Add Dessert");
+        System.out.println("4. Back");
         System.out.print("Select an option: ");
         int option = scanner.nextInt();
         scanner.nextLine(); // Consume newline
@@ -503,6 +507,8 @@ public class MenuManagementSystem {
             case 3:
                 addDessert();
                 break;
+            case 4 : 
+                return;
             default:
                 System.out.println("Invalid option. Please try again.");
         }
