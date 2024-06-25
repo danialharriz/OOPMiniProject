@@ -9,7 +9,7 @@ interface PriceCalculable{
     public double calcTax(double tax);
 }
 
-abstract class MenuItem {
+abstract class MenuItem implements PriceCalculable{
     private double price;
     public abstract String getName();
     public abstract double getPrice();
@@ -265,7 +265,7 @@ class Dessert extends MenuItem {
 }
 
 public class MenuManagementSystem {
-    private static final String MENU_FILE = "Aleysha/Menu.txt";
+    private static final String MENU_FILE = "Aleysha/Menu  .txt";
     private static Scanner scanner = new Scanner(System.in);
     private static Menu menu = new Menu();
 
